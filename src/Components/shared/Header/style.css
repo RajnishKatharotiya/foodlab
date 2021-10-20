@@ -25,13 +25,9 @@
     color: #018038;
 }
 
-.header-logo_box h1 {
-    font-size: 30px;
-    line-height: 30px;
-    margin: 0 10px;
-    color: #018038;
-    font-weight: 700;
-    font-family: 'Caveat', cursive;
+.header-logo_box img {
+    width: 60px;
+    margin-top: 10px;
 }
 
 /* Action box*/

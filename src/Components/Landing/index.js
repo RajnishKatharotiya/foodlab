@@ -7,7 +7,7 @@ import './style.css'
 
 const Landing = () => (
     <div className="landing-hero_container">
-        <Header transparent={true} />
+        <Header />
         <div className="landing-hero row">
             <div className="landing-hero_title-box col-8">
                 <h2>Hi,</h2>
@@ -25,9 +25,6 @@ const Landing = () => (
                         </Button>
                     </InputGroup>
                 </div>
-            </div>
-            <div className="landing-hero_img-box col-4">
-                <img src="/images/food-img.webp" alt="food-img" />
             </div>
         </div>
     </div>
