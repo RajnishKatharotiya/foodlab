@@ -29,16 +29,17 @@ const schema = yup.object().shape({
 export const Register = (props) => {
   const [show, setShow] = useState(false);
   const submit = (values) => {
-    console.log("values", values);
-    axios.post('http://localhost:8080/auth/register', values);
-
-    setShow(true);
-    localStorage.setItem("email", values.email);
-
-    setTimeout(() => {
-      setShow(false);
-      props.history.push("/recipes");
-    }, 1000);
+    try {
+      axios.post('http://localhost:8080/auth/register', values);
+      setShow(true);
+      localStorage.setItem("email", values.email);
+      setTimeout(() => {
+        setShow(false);
+        props.history.push("/recipes");
+      }, 1000);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
@@ -160,7 +161,7 @@ export const Register = (props) => {
                     {errors.passwordConfirmation}
                   </Form.Control.Feedback>
                 </Form.Group>
-             
+
                 <Form.Group className="mb-3">
                   <Form.Check
                     required

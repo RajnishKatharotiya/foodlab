@@ -2,6 +2,7 @@ import Header from "../../shared/Header";
 import { Link } from "react-router-dom";
 import { Formik } from 'formik';
 import * as yup from 'yup';
+import axios from "axios";
 
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
@@ -22,13 +23,18 @@ const schema = yup.object().shape({
 export const Login = (props) => {
     const [show, setShow] = useState(false);
     const submit = (values) => {
-        setShow(true);
-        localStorage.setItem('email', values.email);
+        try {
+            axios.post('http://localhost:8080/auth/login', values);
+            setShow(true);
+            localStorage.setItem('email', values.email);
 
-        setTimeout(() => {
-            setShow(false);
-            props.history.push('/recipes')
-        }, 1000)
+            setTimeout(() => {
+                setShow(false);
+                props.history.push('/recipes')
+            }, 1000)
+        } catch (e) {
+            console.log(e)
+        }
     }
 
     return (
