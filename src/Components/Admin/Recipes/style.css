@@ -1,0 +1,21 @@
+.manage-recipes_container {
+    width: 100%;
+}
+
+.manage-recipes_content{
+    width: 100%;
+    padding: 120px 80px;
+}
+
+.manage-recipes_header{
+    width: 100%;
+    margin-bottom: 10px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.admin-heading{
+    font-size: 24px;
+}

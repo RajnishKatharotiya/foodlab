@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
-const authRouter = require("./server/authentication");
+const authRouter = require("./server/user/authentication");
+const recipesRouter = require("./server/recipes/index")
 const scripts = require("./server/fetchScripts");
 const cors = require("cors");
 
@@ -18,6 +19,7 @@ require('./server/firebaseConfig')
 const port = parseInt(process.env.PORT, 10) || 8080;
 
 app.use("/auth", authRouter);
+app.use("/recipes", recipesRouter);
 app.use("/db", scripts);
 
 app.listen(port, () => console.log(`Server is ready on ${port}!`));

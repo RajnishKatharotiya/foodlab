@@ -12,7 +12,6 @@ function storeRecipe(id, data) {
 const router = require("express").Router();
 
 router.get("/fetch-recipes", async (req, res) => {
-    console.log();
     try {
         const allmeals = await axios.get(`https://www.themealdb.com/api/json/v1/1/filter.php?a=${req.query.a || 'American'}`);
         allmeals.data.meals.map(async (m) => {

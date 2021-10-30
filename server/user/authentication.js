@@ -3,7 +3,7 @@ const {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } = require("firebase/auth");
-const storeUserData = require("./user/controller");
+const storeUserData = require("./controller");
 
 const router = require("express").Router();
 
