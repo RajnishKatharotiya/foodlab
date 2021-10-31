@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 
 import "./style.css";
 import { useEffect, useState } from "react";
+import { isAdmin, isLoggedIn } from "../utils";
 
 const Header = ({ transparent = false }) => {
   const [username, setUsername] = useState("");
@@ -13,8 +14,8 @@ const Header = ({ transparent = false }) => {
 
   // Update header based on storage
   const handleStorageUpdate = () => {
-    const user = localStorage.getItem("username");
-    setUsername(user);
+    const user = JSON.parse(localStorage.getItem("user"));
+    setUsername(`${user?.firstName}`);
     if (user) {
       const favData = JSON.parse(localStorage.getItem("favItems")) || [];
       const cartData = JSON.parse(localStorage.getItem("cartItems")) || [];
@@ -53,8 +54,22 @@ const Header = ({ transparent = false }) => {
             Contact Us
           </Button>
         </Link>
-        {username ? (
+        {isLoggedIn() ? (
           <>
+            {isAdmin() && (
+              <>
+                <Link to="/admin/recipes">
+                  <Button variant="outline-light" className="action-button">
+                    Manage Recipes
+                  </Button>
+                </Link>
+                <Link to="/admin/users">
+                  <Button variant="outline-light" className="action-button">
+                    Manage Users
+                  </Button>
+                </Link>
+              </>
+            )}
             <Button
               variant="outline-light"
               className="action-button"

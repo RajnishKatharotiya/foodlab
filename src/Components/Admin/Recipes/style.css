@@ -19,3 +19,21 @@
 .admin-heading{
     font-size: 24px;
 }
+
+.manage-recipe_table td{
+    vertical-align: middle;
+}
+
+
+.recipe-form_body .modal-dialog{
+    max-width: 700px;
+}
+
+.recipe-form_body .form-label{
+    margin-bottom: 0;
+    margin-top: 10px;
+}
+
+.recipe-form_body h4{
+    margin: 0;
+}

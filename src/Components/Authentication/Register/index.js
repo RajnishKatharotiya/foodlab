@@ -1,7 +1,7 @@
 import Header from "../../shared/Header";
 import { Link } from "react-router-dom";
 import { Formik } from "formik";
-import axios from 'axios';
+import axios from "axios";
 import * as yup from "yup";
 
 import Card from "react-bootstrap/Card";
@@ -27,18 +27,29 @@ const schema = yup.object().shape({
 });
 
 export const Register = (props) => {
-  const [show, setShow] = useState(false);
-  const submit = (values) => {
+  const [message, setMessage] = useState("");
+  const [type, setType] = useState("success");
+  const submit = async (values) => {
     try {
-      axios.post('http://localhost:8080/auth/register', values);
-      setShow(true);
-      localStorage.setItem("email", values.email);
+      const { data } = await axios.post(
+        "http://localhost:8080/auth/register",
+        values
+      );
+      localStorage.setItem("user", JSON.stringify(data));
+
+      // Respond
+      setMessage("User registered successfully!");
+      setType("success");
+
       setTimeout(() => {
-        setShow(false);
+        setMessage("");
         props.history.push("/recipes");
       }, 1000);
     } catch (e) {
       console.log(e);
+      // Respond
+      setMessage("Something went wrong, please try again!");
+      setType("danger");
     }
   };
 
@@ -75,7 +86,7 @@ export const Register = (props) => {
                   <Form.Control
                     type="text"
                     name="firstName"
-                    placeholder="Lastname"
+                    placeholder="First Name"
                     aria-describedby="inputGroupPrepend"
                     value={values.firstName}
                     onChange={handleChange}
@@ -94,13 +105,12 @@ export const Register = (props) => {
                   <Form.Control
                     type="text"
                     name="lastName"
-                    placeholder="Lastname"
+                    placeholder="Last Name"
                     aria-describedby="inputGroupPrepend"
                     value={values.lastName}
                     onChange={handleChange}
                     isValid={touched.lastName && !errors.lastName}
-                    isInvali
-                    d={!!errors.lastName}
+                    isInvalid={!!errors.lastName}
                   />
                   <Form.Control.Feedback type="valid">
                     Looks good!
@@ -189,10 +199,10 @@ export const Register = (props) => {
         </Card.Body>
       </Card>
       <AlertDismissible
-        open={show}
-        onClose={setShow}
-        text="User registered successfully !!"
-        variant="success"
+        open={message}
+        onClose={() => setMessage("")}
+        text={message}
+        variant={type}
       />
     </div>
   );

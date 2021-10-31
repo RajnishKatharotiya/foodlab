@@ -1,56 +1,78 @@
-import axios from 'axios'
-import { useEffect, useState } from 'react'
-import { Table } from 'react-bootstrap'
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { Table, Button } from "react-bootstrap";
 
-import Header from '../shared/Header'
-import './style.css'
+import Header from "../../shared/Header";
+import { RecipeForm } from "./RecipeForm";
+import "./style.css";
 
 export const ManageRecipes = () => {
-    const [recipes, setRecipes] = useState([])
+  const [recipes, setRecipes] = useState([]);
+  const [showForm, setShowForm] = useState(false);
 
-    const fetchRecipes = async () => {
-        try {
-            const { data } = await axios.get('http://localhost:8080/recipes/fetch-all')
-            setRecipes(Object.values(data))
-        } catch (e) {
-            console.log(e)
-        }
+  const fetchRecipes = async () => {
+    try {
+      const { data } = await axios.get(
+        "http://localhost:8080/recipes/fetch-all"
+      );
+      setRecipes(data);
+    } catch (e) {
+      console.log(e);
     }
+  };
 
-    useEffect(() => {
-        fetchRecipes()
-    }, [])
+  useEffect(() => {
+    fetchRecipes();
+  }, []);
 
-    return (
-        <div className="manage-recipes_container">
-            <Header />
-            <div className="manage-recipes_content">
-                <div className="manage-recipes_header">
-                    <h1 className="admin-heading">Manage Recipes</h1>
-                </div>
-                <Table striped bordered hover>
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Name</th>
-                            <th>Area</th>
-                            <th>Category</th>
-                            <th>Price</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {recipes.map(recipe => (
-                            <tr key={recipe.mId}>
-                                <td>{recipe.mId}</td>
-                                <td>{recipe.name}</td>
-                                <td>{recipe.area}</td>
-                                <td>{recipe.category}</td>
-                                <td>${recipe.price}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </Table>
-            </div>
+  return (
+    <div className="manage-recipes_container">
+      <Header />
+      <RecipeForm show={showForm} handleClose={() => setShowForm(false)} initialValue={typeof show === 'boolean' ? {} : recipes[showForm]}/>
+      <div className="manage-recipes_content">
+        <div className="manage-recipes_header">
+          <h1 className="admin-heading">Manage Recipes</h1>
+          <Button variant="outline-success" onClick={() => setShowForm(true)}>
+            <i className="bi bi-plus-circle" style={{ marginRight: "5px" }}></i>
+            Add New Recipe
+          </Button>
         </div>
-    )
-}
+        <Table striped bordered hover className="manage-recipe_table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Area</th>
+              <th>Category</th>
+              <th>Price</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {Object.values(recipes).map((recipe) => (
+              <tr key={recipe.mId}>
+                <td>{recipe.mId}</td>
+                <td>{recipe.name}</td>
+                <td>{recipe.area}</td>
+                <td>{recipe.category}</td>
+                <td>${recipe.price}</td>
+                <td>
+                  <Button
+                    variant="success"
+                    style={{ marginRight: "10px" }}
+                    onClick={() => setShowForm(recipe.mId)}
+                  >
+                    <i className="bi bi-pencil-fill"></i>
+                  </Button>
+                  <Button variant="danger">
+                    <i className="bi bi-trash2-fill"></i>
+                  </Button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </div>
+    </div>
+  );
+};
