@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Table, Button } from "react-bootstrap";
+import AlertDismissible from "../../shared/Alert";
 
 import Header from "../../shared/Header";
 import { RecipeForm } from "./RecipeForm";
@@ -9,6 +10,8 @@ import "./style.css";
 export const ManageRecipes = () => {
   const [recipes, setRecipes] = useState([]);
   const [showForm, setShowForm] = useState(false);
+  const [message, setMessage] = useState("");
+  const [type, setType] = useState("success");
 
   const fetchRecipes = async () => {
     try {
@@ -21,6 +24,23 @@ export const ManageRecipes = () => {
     }
   };
 
+  const deleteRecipe = async (id) => {
+    try {
+      const result = await axios.post(
+        "http://localhost:8080/recipes/store-recipe",
+        { id: id, data: null }
+      );
+      setMessage("Recipe deleted successfully!");
+      setType("success");
+      fetchRecipes();
+    }
+    catch(e){
+      console.log(e);
+      setMessage("Recipe delete failed, please try again!");
+      setType("danger");
+    }
+  }
+
   useEffect(() => {
     fetchRecipes();
   }, []);
@@ -28,7 +48,14 @@ export const ManageRecipes = () => {
   return (
     <div className="manage-recipes_container">
       <Header />
-      <RecipeForm show={showForm} handleClose={() => setShowForm(false)} initialValue={typeof show === 'boolean' ? {} : recipes[showForm]}/>
+      <RecipeForm
+        show={showForm}
+        handleClose={() => setShowForm(false)}
+        initialValue={typeof show === "boolean" ? {} : recipes[showForm]}
+        refetchData={() => fetchRecipes()}
+        setMessage={setMessage}
+        setTyoe={setType}
+      />
       <div className="manage-recipes_content">
         <div className="manage-recipes_header">
           <h1 className="admin-heading">Manage Recipes</h1>
@@ -64,7 +91,7 @@ export const ManageRecipes = () => {
                   >
                     <i className="bi bi-pencil-fill"></i>
                   </Button>
-                  <Button variant="danger">
+                  <Button variant="danger" onClick={() => deleteRecipe(recipe.mId)}>
                     <i className="bi bi-trash2-fill"></i>
                   </Button>
                 </td>
@@ -73,6 +100,12 @@ export const ManageRecipes = () => {
           </tbody>
         </Table>
       </div>
+      <AlertDismissible
+        open={message}
+        onClose={() => setMessage("")}
+        text={message}
+        variant={type}
+      />
     </div>
   );
 };
