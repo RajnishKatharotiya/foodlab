@@ -54,7 +54,7 @@ export const ManageRecipes = () => {
         initialValue={typeof show === "boolean" ? {} : recipes[showForm]}
         refetchData={() => fetchRecipes()}
         setMessage={setMessage}
-        setTyoe={setType}
+        setType={setType}
       />
       <div className="manage-recipes_content">
         <div className="manage-recipes_header">

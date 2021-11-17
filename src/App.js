@@ -6,8 +6,10 @@ import {
   Redirect,
 } from "react-router-dom";
 
+// Components
 import { Login } from "./Components/Authentication/Login";
 import { Register } from "./Components/Authentication/Register";
+import Recipes from './Components/Recipes';
 
 // ADMIN COMPONENTS
 import { ManageRecipes } from "./Components/Admin/Recipes";
@@ -32,6 +34,7 @@ function App() {
       <Switch>
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
+        <Route exact path="/recipes" component={Recipes} />
         <Route path="/admin" component={Admin} />
         <Route path="/" component={Landing} />
       </Switch>

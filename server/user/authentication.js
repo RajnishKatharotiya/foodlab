@@ -4,7 +4,7 @@ const {
   signInWithEmailAndPassword,
 } = require("firebase/auth");
 const { getDatabase, ref, child, get } = require("@firebase/database");
-const storeUserData = require("./controller");
+const { storeUserData } = require("./controller");
 
 const router = require("express").Router();
 
@@ -21,7 +21,7 @@ router.post("/register", (req, res) => {
   const { email, password, passwordConfirmation, ...rest } = req.body;
   const auth = getAuth();
   createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
+    .then(async (userCredential) => {
       // Signed in
       const user = userCredential.user;
       const data = { email, ...rest, role: "standard", uid: user.uid };
