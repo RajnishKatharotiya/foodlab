@@ -22,7 +22,7 @@ const schema = yup.object().shape({
   password: yup.string().required("Password is required"),
   passwordConfirmation: yup
     .string()
-    .oneOf([yup.ref("password"), null], "Passwords must match"),
+    .oneOf([yup.ref("password")], "Passwords must match"),
   terms: yup.bool().required().oneOf([true], "Terms must be accepted"),
 });
 

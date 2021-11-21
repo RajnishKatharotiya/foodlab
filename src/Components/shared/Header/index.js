@@ -5,7 +5,8 @@ import { Link } from "react-router-dom";
 
 import "./style.css";
 import { useEffect, useState } from "react";
-import { isAdmin, isLoggedIn } from "../utils";
+import { getUserId, isAdmin, isLoggedIn } from "../utils";
+import axios from "axios";
 
 const Header = ({ transparent = false }) => {
   const [username, setUsername] = useState("");
@@ -13,22 +14,31 @@ const Header = ({ transparent = false }) => {
   const [favItems, setFavItems] = useState(0);
 
   // Update header based on storage
-  const handleStorageUpdate = () => {
+  /* const handleStorageUpdate = () => {
     const user = JSON.parse(localStorage.getItem("user"));
     setUsername(`${user?.firstName}`);
     if (user) {
-      const favData = JSON.parse(localStorage.getItem("favItems")) || [];
-      const cartData = JSON.parse(localStorage.getItem("cartItems")) || [];
-      setFavItems(favData.length || 0);
-      setCartItems(cartData.length || 0);
+      const favData = JSON.parse(localStorage.getItem("favItems")) || null;
+      const cartData = JSON.parse(localStorage.getItem("cartItems")) || null;
+      setFavItems(favData ? favData.split(',').length : 0);
+      setCartItems(cartData ? cartData.split(',').length : 0);
     }
-  };
+  }; */
 
+  const setInitData = async () => {
+    const { firstName, uid } = JSON.parse(localStorage.getItem("user")) || {};
+    if (uid) {
+      setUsername(firstName);
+      const { data: { cart, favorites } } = await axios.get(`http://localhost:8080/profile/all?uid=${uid}`);
+      setCartItems(cart ? cart.split(',').length : 0);
+      setFavItems(favorites ? favorites.split(',').length : 0);
+    }
+  }
   // listen browser storage
   useEffect(() => {
-    handleStorageUpdate();
+    setInitData();
     const initListener = setInterval(() => {
-      handleStorageUpdate();
+      setInitData();
     }, 1000);
     return () => clearInterval(initListener);
   }, []);
@@ -36,7 +46,7 @@ const Header = ({ transparent = false }) => {
   // Clear storage on logout
   const handleLogout = () => {
     localStorage.clear();
-    handleStorageUpdate();
+    setInitData();
   };
   return (
     <div className={`header ${transparent ? "" : "fixed-header"}`}>

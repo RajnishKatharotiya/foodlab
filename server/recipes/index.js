@@ -27,5 +27,25 @@ router.post("/store-recipe", async (req, res) => {
     }
 });
 
+router.get("/fetch-by-id", (req, res) => {
+    let { ids } = req.query;
+    const dbRef = ref(getDatabase());
+    if(!ids){
+        return res.send("No ids are given!");
+    }
+    get(child(dbRef, `recipes`)).then((snapshot) => {
+        if (snapshot.exists()) {
+            const data = snapshot.val();
+            const result = {};
+            ids = ids.split(',');
+            ids.forEach(id => result[id] = data[id]);
+            res.send(result);
+        } else {
+            return res.status(400).send("No data available")
+        }
+    }).catch((error) => {
+        return res.status(400).send(error);
+    });
+});
 
 module.exports = router;

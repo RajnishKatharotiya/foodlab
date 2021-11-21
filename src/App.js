@@ -9,6 +9,8 @@ import {
 // Components
 import { Login } from "./Components/Authentication/Login";
 import { Register } from "./Components/Authentication/Register";
+import Cart from './Components/Cart';
+import Favorites from './Components/Favs';
 import Recipes from './Components/Recipes';
 
 // ADMIN COMPONENTS
@@ -35,6 +37,8 @@ function App() {
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
         <Route exact path="/recipes" component={Recipes} />
+        <Route exact path="/my-cart" component={Cart} />
+        <Route exact path="/my-favorites" component={Favorites} />
         <Route path="/admin" component={Admin} />
         <Route path="/" component={Landing} />
       </Switch>
