@@ -24,7 +24,7 @@ router.post("/register", (req, res) => {
     .then(async (userCredential) => {
       // Signed in
       const user = userCredential.user;
-      const data = { email, ...rest, role: "standard", uid: user.uid };
+      const data = { email, ...rest, role: "standard", uid: user.uid, cart: '', favorites: '' };
       storeUserData(user.uid, data);
       res.send(data);
     })

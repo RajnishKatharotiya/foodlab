@@ -1,7 +1,7 @@
 import Button from "react-bootstrap/Button";
 import Badge from "react-bootstrap/Badge";
 
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 import "./style.css";
 import { useEffect, useState } from "react";
@@ -12,6 +12,7 @@ const Header = ({ transparent = false }) => {
   const [username, setUsername] = useState("");
   const [cartItems, setCartItems] = useState(0);
   const [favItems, setFavItems] = useState(0);
+  const router = useHistory();
 
   // Update header based on storage
   /* const handleStorageUpdate = () => {
@@ -32,6 +33,8 @@ const Header = ({ transparent = false }) => {
       const { data: { cart, favorites } } = await axios.get(`http://localhost:8080/profile/all?uid=${uid}`);
       setCartItems(cart ? cart.split(',').length : 0);
       setFavItems(favorites ? favorites.split(',').length : 0);
+    } else {
+      setUsername('');
     }
   }
   // listen browser storage
@@ -47,6 +50,7 @@ const Header = ({ transparent = false }) => {
   const handleLogout = () => {
     localStorage.clear();
     setInitData();
+    router.push('/');
   };
   return (
     <div className={`header ${transparent ? "" : "fixed-header"}`}>
