@@ -51,7 +51,7 @@ const Header = ({ transparent = false }) => {
   return (
     <div className={`header ${transparent ? "" : "fixed-header"}`}>
       <div className="header-logo_box">
-        <img src="/images/logo.png" alt="foodlab" />
+        <img src="/images/logo-landscape.png" alt="foodlab" />
       </div>
       <div className="header_actions">
         <Link to="/recipes">
