@@ -49,10 +49,10 @@ div.contact-us-hero_form-box {
     background-color: #018038;
     color: #fff;
     position: relative;
-
     display: flex;
     align-items: center;
-    padding-left: 150px;
+    justify-content: center;
+    
 }
 
 
@@ -62,6 +62,7 @@ div.contact-us-hero_form-box {
 }
 
 .contact-us-hero_info-box li i{
+    
     font-size: 40px;
 }
 

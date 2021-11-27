@@ -121,7 +121,7 @@ const ContactUs = (props) => {
                                             </Form.Group>
                                         </Row>
                                         <div className="contact-us-footer">
-                                            <Button variant="danger" type="submit">Submit</Button>
+                                            <Button variant="success" type="submit">Submit</Button>
                                         </div>
                                     </Form>
                                 )}
