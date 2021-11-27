@@ -12,6 +12,7 @@ import { Register } from "./Components/Authentication/Register";
 import Cart from './Components/Cart';
 import Favorites from './Components/Favs';
 import Recipes from './Components/Recipes';
+import ContactUs from "./Components/ContactUs";
 
 // ADMIN COMPONENTS
 import { ManageRecipes } from "./Components/Admin/Recipes";
@@ -36,6 +37,7 @@ function App() {
       <Switch>
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
+        <Route exact path="/contact-us" component={ContactUs} />
         <Route exact path="/recipes" component={Recipes} />
         <Route exact path="/my-cart" component={Cart} />
         <Route exact path="/my-favorites" component={Favorites} />
