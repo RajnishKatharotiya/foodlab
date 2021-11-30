@@ -9,12 +9,13 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import InputGroup from 'react-bootstrap/InputGroup';
 import AlertDismissible from "../shared/Alert";
+import axios from "axios";
+import { getUserId } from "../shared/utils";
 
 
 const schema = yup.object().shape({
   firstName: yup.string().required(),
   lastName: yup.string().required(),
-  username: yup.string().required(),
   city: yup.string().required(),
   state: yup.string().required(),
   zip: yup.string().required(),
@@ -22,15 +23,32 @@ const schema = yup.object().shape({
 
 
 const PaymentModal = (props) => {
-  const [show, setShow] = useState(false);
 
-  const submit = (values) => {
-    console.log("value", values)
-    setShow(true);
+  const [message, setMessage] = useState("");
+  const [type, setType] = useState("success");
 
-    setTimeout(() => {
-      props.onHide()
-    }, 1000)
+  const submit = async (values) => {
+    const uid = getUserId();
+    const { totalamount, objectIds, afterCallback } = props;
+    try {
+      const result = await axios.post(
+        "http://localhost:8080/profile/store-payment",
+        { uid, values: { ...values, totalamount, objectIds } }
+      );
+      setMessage("Order made successfully!");
+      setType("success");
+      if (afterCallback) {
+        afterCallback();
+      }
+    } catch (e) {
+      console.log("Payment error", e);
+      setMessage("Something went wrong, please try again!");
+      setType("danger");
+    } finally {
+      setTimeout(() => {
+        props.onHide()
+      }, 2000)
+    }
   }
   return (
     <Modal
@@ -50,7 +68,6 @@ const PaymentModal = (props) => {
         initialValues={{
           firstName: '',
           lastName: '',
-          username: '',
           city: '',
           state: '',
           zip: '',
@@ -68,7 +85,7 @@ const PaymentModal = (props) => {
           <Form noValidate onSubmit={handleSubmit}>
             <Modal.Body>
               <Row className="mb-3">
-                <Form.Group as={Col} md="4" controlId="validationFormik01">
+                <Form.Group as={Col} md="6" controlId="validationFormik01">
                   <Form.Label>First name</Form.Label>
                   <Form.Control
                     type="text"
@@ -85,7 +102,7 @@ const PaymentModal = (props) => {
                     {errors.firstName}
                   </Form.Control.Feedback>
                 </Form.Group>
-                <Form.Group as={Col} md="4" controlId="validationFormik02">
+                <Form.Group as={Col} md="6" controlId="validationFormik02">
                   <Form.Label>Last name</Form.Label>
                   <Form.Control
                     type="text"
@@ -101,26 +118,6 @@ const PaymentModal = (props) => {
                   <Form.Control.Feedback type="invalid">
                     {errors.lastName}
                   </Form.Control.Feedback>
-                </Form.Group>
-                <Form.Group as={Col} md="4" controlId="validationFormikUsername">
-                  <Form.Label>Username</Form.Label>
-                  <InputGroup hasValidation>
-                    <InputGroup.Text id="inputGroupPrepend">@</InputGroup.Text>
-                    <Form.Control
-                      type="text"
-                      placeholder="Username"
-                      aria-describedby="inputGroupPrepend"
-                      name="username"
-                      value={values.username}
-                      onChange={handleChange}
-                      isValid={touched.username && !errors.username}
-                      isInvalid={!!errors.username}
-                    />
-                    <Form.Control.Feedback type="valid">Looks good!</Form.Control.Feedback>
-                    <Form.Control.Feedback type="invalid">
-                      {errors.username}
-                    </Form.Control.Feedback>
-                  </InputGroup>
                 </Form.Group>
               </Row>
               <Row className="mb-3">
@@ -176,7 +173,7 @@ const PaymentModal = (props) => {
           </Form>
         )}
       </Formik>
-      <AlertDismissible open={show} onClose={setShow} text="Payment done successfully !!" variant="success" />
+      <AlertDismissible open={!!message} onClose={() => setMessage('')} text={message} variant={type} />
     </Modal>
   );
 }

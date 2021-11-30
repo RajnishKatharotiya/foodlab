@@ -38,6 +38,12 @@ const Recipes = () => {
     useEffect(() => {
         getCart();
     }, []);
+
+    let totalamount = 0;
+    if(cart?.length){
+        cart.forEach(e => totalamount += e.price);
+    }
+    const objIds = cart.map(e => e.mId);
     return (
         <div className="recipes_container">
             <Header />
@@ -55,22 +61,28 @@ const Recipes = () => {
                         <div>
                             <h4>Cart Items</h4>
                             <div>
-                                {cart.length > 0 ? cart.map(({ thumbImg, name, mId, price }) =>
-                                    <div key={mId} className="cart-checkout_row">
-                                        <div className="cart-checkout_row-left">
-                                            <img src={thumbImg} alt={name} />
-                                            <p>{name}</p>
+                                {cart.length > 0 ? (<>
+                                    {cart.map(({ thumbImg, name, mId, price }) =>
+                                        <div key={mId} className="cart-checkout_row">
+                                            <div className="cart-checkout_row-left">
+                                                <img src={thumbImg} alt={name} />
+                                                <p>{name}</p>
+                                            </div>
+                                            <h3>${price.toFixed(2)}</h3>
                                         </div>
-                                        <h3>${price.toFixed(2)}</h3>
+                                    )}
+                                    <div className="cart-checkout_row total">
+                                        <h2>Total price : </h2>
+                                        <h3>${totalamount}</h3>
                                     </div>
-                                ) : <h4 className="error-text">No recipes found for selected filters!</h4>}
+                                </>) : <h4 className="error-text">No recipes found for selected filters!</h4>}
                             </div>
                         </div>
                         <Button className="cart-checkout_pay-now-btn" variant="success" onClick={() => setShow(true)}>Pay Now</Button>
                     </Card>
                 </div>
             }
-            <PaymentModal onHide={() => setShow(false)} show={show} />
+            <PaymentModal onHide={() => setShow(false)} show={show} totalamount={totalamount} objectIds={objIds} afterCallback={getCart} />
         </div>
     )
 }

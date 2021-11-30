@@ -74,4 +74,25 @@ router.get('/all', async (req, res) => {
     return res.status(400).send("No user found!")
 });
 
+router.post('/store-payment', async (req, res) => {
+    const { uid, values } = req.body;
+    try {
+        const user = await getUserById(uid);
+        if (user) {
+            let { orders } = user;
+
+            const data = {
+                ...user,
+                cart: '',
+                orders: orders?.length ? [...orders, values] : [values]
+            }
+            storeUserData(user.uid, data);
+            return res.send(data);
+        }
+        return res.status(400).send("No user found!");
+    } catch (e) {
+        console.log(e)
+    }
+})
+
 module.exports = router;

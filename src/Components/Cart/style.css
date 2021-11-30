@@ -108,7 +108,17 @@
     margin: 0;
 }
 
+
+.cart-checkout_row h2 {
+    font-size: 24px;
+    margin: 0;
+}
+
 .cart-checkout_pay-now-btn {
     margin: 10px 0 0 0;
     width: 100%;
+}
+
+.cart-checkout_row.total{
+    margin-top: 10px;
 }
