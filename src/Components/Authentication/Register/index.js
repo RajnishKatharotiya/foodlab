@@ -19,7 +19,10 @@ const schema = yup.object().shape({
   firstName: yup.string().required(),
   lastName: yup.string().required(),
   email: yup.string().required(),
-  password: yup.string().required("Password is required"),
+  password: yup.string().required("Password is required").matches(
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+    "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
+  ),
   passwordConfirmation: yup
     .string()
     .oneOf([yup.ref("password")], "Passwords must match"),

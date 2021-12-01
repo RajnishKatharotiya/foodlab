@@ -1,5 +1,6 @@
 import Button from "react-bootstrap/Button";
 import Badge from "react-bootstrap/Badge";
+import Dropdown from "react-bootstrap/Dropdown";
 
 import { Link, useHistory } from "react-router-dom";
 
@@ -54,7 +55,7 @@ const Header = ({ transparent = false }) => {
   };
   return (
     <div className={`header ${transparent ? "" : "fixed-header"}`}>
-      <div className="header-logo_box">
+      <div className="header-logo_box" onClick={() => router.push('/')}>
         <img src="/images/logo-landscape.png" alt="foodlab" />
       </div>
       <div className="header_actions">
@@ -84,13 +85,16 @@ const Header = ({ transparent = false }) => {
                 </Link>
               </>
             )}
-            <Button
-              variant="outline-light"
-              className="action-button"
-              onClick={handleLogout}
-            >
-              {username}
-            </Button>
+
+            <Dropdown>
+              <Dropdown.Toggle variant="outline-light" className="action-button"s>
+                {username}
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item href="/my-profile">View Profile</Dropdown.Item>
+                <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
             <Link to="/my-favorites">
               <Button variant="light" className="action-button">
                 <i className="bi bi-heart-fill"></i>

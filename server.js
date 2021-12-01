@@ -4,6 +4,7 @@ const authRouter = require("./server/user/authentication");
 const recipesRouter = require("./server/recipes/index");
 const profileRouter = require("./server/user/profile");
 const scripts = require("./server/fetchScripts");
+const others = require("./server/others");
 const cors = require("cors");
 
 // CORS config
@@ -23,5 +24,6 @@ app.use("/auth", authRouter);
 app.use("/recipes", recipesRouter);
 app.use("/profile", profileRouter);
 app.use("/db", scripts);
+app.use("/others", others);
 
 app.listen(port, () => console.log(`Server is ready on ${port}!`));

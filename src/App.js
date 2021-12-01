@@ -13,6 +13,7 @@ import Cart from './Components/Cart';
 import Favorites from './Components/Favs';
 import Recipes from './Components/Recipes';
 import ContactUs from "./Components/ContactUs";
+import Profile from "./Components/Profile";
 
 // ADMIN COMPONENTS
 import { ManageRecipes } from "./Components/Admin/Recipes";
@@ -41,6 +42,7 @@ function App() {
         <Route exact path="/recipes" component={Recipes} />
         <Route exact path="/my-cart" component={Cart} />
         <Route exact path="/my-favorites" component={Favorites} />
+        <Route exact path="/my-profile" component={Profile} />
         <Route path="/admin" component={Admin} />
         <Route path="/" component={Landing} />
       </Switch>

@@ -30,7 +30,11 @@
 }
 
 /* Action box*/
-
+.header_actions{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
 .action-button.btn {
     margin: 0 10px;
     padding: 5px 20px;

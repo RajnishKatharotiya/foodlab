@@ -11,6 +11,7 @@ import Col from 'react-bootstrap/Col';
  
 import './style.css';
 import AlertDismissible from "../shared/Alert";
+import axios from "axios";
  
 const schema = yup.object().shape({
     name: yup.string().required(),
@@ -21,9 +22,9 @@ const schema = yup.object().shape({
 
 const ContactUs = (props) => {
     const [show, setShow] = useState(false);
-    const submit = (values) => {
+    const submit = async (values) => {
         setShow(true);
-
+        const { data } = await axios.post("http://localhost:8080/others/contact-us", values);
         setTimeout(() => {
             setShow(false);
         }, 3000)
