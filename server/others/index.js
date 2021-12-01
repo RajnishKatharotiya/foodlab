@@ -6,7 +6,7 @@ router.post("/contact-us", (req, res) => {
     const db = getDatabase();
     const data = req.body;
     try{
-        push(ref(db, "quries/"),data);
+        push(ref(db, "queries/"),data);
         res.send(data);
     } catch(e){
         console.log(e);
