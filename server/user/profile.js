@@ -67,11 +67,26 @@ router.post('/favorites', async (req, res) => {
 
 router.get('/all', async (req, res) => {
     const { uid } = req.query;
-    const user = await getUserById(uid);
-    if (user) {
-        return res.send(user)
+
+    if (uid) {
+        const user = await getUserById(uid);
+        if (user) {
+            res.send(user)
+        } else {
+            res.status(400).send("No user found!")
+        }
+    } else {
+        const dbRef = ref(getDatabase());
+        get(child(dbRef, `users`)).then((snapshot) => {
+            if (snapshot.exists()) {
+                res.send(snapshot.val())
+            } else {
+                res.status(400).send("No data available")
+            }
+        }).catch((error) => {
+            res.status(400).send(error);
+        });
     }
-    return res.status(400).send("No user found!")
 });
 
 router.post('/store-payment', async (req, res) => {
