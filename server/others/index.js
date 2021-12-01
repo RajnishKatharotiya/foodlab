@@ -15,4 +15,16 @@ router.post("/contact-us", (req, res) => {
 });
 
 
+router.post("/mail-list", (req, res) => {
+    const db = getDatabase();
+    const data = req.body;
+    try{
+        push(ref(db, "maillist/"), data);
+        res.send(data);
+    } catch(e){
+        console.log(e);
+        res.send('Firebase store failed!');
+    }
+});
+
 module.exports = router;

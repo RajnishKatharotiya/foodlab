@@ -8,6 +8,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import { useEffect, useState } from 'react';
 import RecipeCard from './RecipeCard';
 import axios from 'axios';
+import { getUserId } from '../shared/utils';
 
 
 const Recipes = () => {
@@ -19,6 +20,9 @@ const Recipes = () => {
     const [recipes, setRecipes] = useState([]);
     const [filteredRecipes, setFilteredRecipes] = useState([]);
     const [loading, setLoading] = useState(false);
+    // user data
+    const [favoritesIds, setFavoritesId] = useState('');
+    const [cartIds, setCartIds] = useState('');
 
 
     const getRecipes = async (query) => {
@@ -35,28 +39,17 @@ const Recipes = () => {
         }
     }
 
-    /*  useEffect(() => {
-         if (selectedCategory) {
-             getRecipes(`c=${selectedCategory}`);
-         }
-     }, [selectedCategory])
- 
- 
-     useEffect(() => {
-         if (selectedIngredient) {
-             getRecipes(`i=${selectedIngredient}`);
-         }
-     }, [selectedIngredient])
- 
- 
-     useEffect(() => {
-         if (selectedArea) {
-             getRecipes(`a=${selectedArea}`);
-         }
-     }, [selectedArea]) */
-
+    const getUserData = async () => {
+        const uid = getUserId();
+        if (uid) {
+            const { data: { cart = '', favorites = '' } } = await axios.get(`http://localhost:8080/profile/all?uid=${uid}`);
+            setFavoritesId(favorites);
+            setCartIds(cart);
+        }
+    }
     useEffect(() => {
         getRecipes();
+        getUserData();
     }, [])
 
     // on filter updates
@@ -98,7 +91,7 @@ const Recipes = () => {
                 {loading ?
                     <Spinner animation="grow" /> :
                     recipesData.length > 0 ? recipesData.map((recipe) =>
-                        <RecipeCard title={recipe.name} img={recipe.thumbImg} id={recipe.mId} key={recipe.mId} recipe={recipe} />
+                        <RecipeCard title={recipe.name} img={recipe.thumbImg} id={recipe.mId} key={recipe.mId} recipe={recipe} favoriteAdded={favoritesIds.includes(recipe.mId)} cartAdded={cartIds.includes(recipe.mId)} />
                     ) : <h4 className="error-text">No recipes found for selected filters!</h4>
                 }
             </div>
