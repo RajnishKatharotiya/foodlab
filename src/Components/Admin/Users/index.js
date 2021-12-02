@@ -10,10 +10,15 @@ import "./style.css";
 
 export const ManageUsers = () => {
   const [users, setUsers] = useState([]);
+  const [message, setMessage] = useState("");
+  const [type, setType] = useState("success");
+
   const blockUser = async (uid) => {
     try {
       await axios.post("http://localhost:8080/profile/block", { uid });
-      fetchUsers()
+      fetchUsers();
+      console.log(users);
+      
     } catch (e) {
       console.log(e);
     }
@@ -50,9 +55,9 @@ export const ManageUsers = () => {
             </tr>
           </thead>
           <tbody>
-            {Object.entries(users).map(([id, user]) => (
+            {Object.entries(users).map(([id, user], index) => (
               <tr key={id}>
-                <td>{id}</td>
+                <td>{index+1}</td>
                 <td>{user.firstName}</td>
                 <td>{user.lastName}</td>
                 <td>{user.email}</td>
@@ -70,6 +75,12 @@ export const ManageUsers = () => {
           </tbody>
         </Table>
       </div>
+      <AlertDismissible
+        open={message}
+        onClose={() => setMessage("")}
+        text={message}
+        variant={type}
+      />
     </div>
   );
 };
