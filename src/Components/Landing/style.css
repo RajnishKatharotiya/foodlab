@@ -55,6 +55,11 @@ div.landing-hero_title-box {
     font-weight: 400;
 }
 
+.landing-hero_join-mail button {
+    border-top-right-radius: 5px !important;
+    border-bottom-right-radius: 5px !important;
+}
+
 /* Img box - right section */
 
 .landing-hero_img-box {

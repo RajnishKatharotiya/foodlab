@@ -8,7 +8,7 @@ import { getUserId } from "../shared/utils";
 // Styles
 import './style.css';
 
-const OrderCard = ({ order }) => {
+const OrderCard = ({ order, favoriteIds, cartIds }) => {
     const [recipes, setRecipes] = useState([]);
     const [loading, setLoading] = useState(false);
     useEffect(async () => {
@@ -25,18 +25,17 @@ const OrderCard = ({ order }) => {
         }
     }, [order?.objectIds])
 
-    console.log(recipes)
     return (
         <Card className="profile-orders_card">
             <div className="profile-orders_card-header">
                 <h3><b>Ordered for</b>: {order?.city} {order?.state} {order?.zip}</h3>
-                <p>${order?.totalamount || 0}</p>
+                <p>${order?.totalamount ? order.totalamount.toFixed(2) : 0}</p>
             </div>
             <div className="recipes_listing">
                 {loading ?
                     <Spinner animation="grow" /> :
                     recipes.length > 0 ? recipes.map((recipe) =>
-                        <RecipeCard title={recipe.name} img={recipe.thumbImg} id={recipe.mId} key={recipe.mId} recipe={recipe} />
+                        <RecipeCard title={recipe.name} img={recipe.thumbImg} id={recipe.mId} key={recipe.mId} recipe={recipe} favoriteAdded={favoriteIds.includes(recipe.mId)} cartAdded={cartIds.includes(recipe.mId)} />
                     ) : <h4 className="error-text">No recipes found for selected filters!</h4>
                 }
             </div>
@@ -61,7 +60,6 @@ const Profile = (props) => {
 
     const orders = profile?.orders?.length ? profile.orders.filter(e => e) : [];
 
-    console.log(orders, profile.orders);
     return (
         <div className="profile_container">
             <Header />
@@ -89,7 +87,7 @@ const Profile = (props) => {
             <div className="profile-sub-header">
                 <h1>My Orders</h1>
             </div>
-            {orders.map((order, index) => <OrderCard order={order} key={index} />)}
+            {orders.map((order, index) => <OrderCard order={order} key={index} favoriteIds={profile?.favorites} cartIds={profile?.cart} />)}
         </div>
     )
 

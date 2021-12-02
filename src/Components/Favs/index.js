@@ -47,7 +47,7 @@ const Recipes = () => {
                 <div className="recipes_listing">
                     {favorites.length > 0 ? favorites.map((recipe) =>
                         <RecipeCard title={recipe.name} img={recipe.thumbImg} id={recipe.mId} key={recipe.mId} recipe={recipe} favoriteAdded={true} cartAdded={cartIds.includes(recipe.mId)} favCallback={() => getFav()} />
-                    ) : <h4 className="error-text">No recipes found for selected filters!</h4>}
+                    ) : <h4 className="error-text">No recipes added into your favorites list!</h4>}
                 </div>
             }
         </div>

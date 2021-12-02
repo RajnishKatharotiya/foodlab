@@ -55,7 +55,7 @@ const Recipes = () => {
                     <div className="recipes_listing recipes-cart_listing">
                         {cart.length > 0 ? cart.map((recipe) =>
                             <RecipeCard title={recipe.name} img={recipe.thumbImg} id={recipe.mId} key={recipe.mId} recipe={recipe} cartAdded={true} favoriteAdded={favoritesIds.includes(recipe.mId)} cartCallback={() => getCart()} />
-                        ) : <h4 className="error-text">No recipes found for selected filters!</h4>}
+                        ) : <h4 className="error-text">No recipes added into your cart!</h4>}
                     </div>
                     <Card className="cart-checkout_card">
                         <div>
@@ -73,9 +73,9 @@ const Recipes = () => {
                                     )}
                                     <div className="cart-checkout_row total">
                                         <h2>Total price : </h2>
-                                        <h3>${totalamount}</h3>
+                                        <h3>${totalamount.toFixed(2)}</h3>
                                     </div>
-                                </>) : <h4 className="error-text">No recipes found for selected filters!</h4>}
+                                </>) : <h4 className="error-text">No recipes found!</h4>}
                             </div>
                         </div>
                         <Button className="cart-checkout_pay-now-btn" variant="success" onClick={() => setShow(true)}>Pay Now</Button>
