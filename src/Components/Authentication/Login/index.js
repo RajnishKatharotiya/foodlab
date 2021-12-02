@@ -42,7 +42,7 @@ export const Login = (props) => {
     } catch (e) {
       console.log(e);
       // Respond
-      setMessage("Something went wrong, please try again!");
+      setMessage(e?.response?.data || "Something went wrong, please try again!");
       setType("danger");
     }
   };

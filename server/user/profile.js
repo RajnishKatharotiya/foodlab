@@ -64,6 +64,21 @@ router.post('/favorites', async (req, res) => {
     return res.status(400).send("No user found!")
 });
 
+router.post('/block', async (req, res) => {
+    const { uid } = req.body;
+    const user = await getUserById(uid);
+    if (user) {
+        let { blocked } = user;
+        blocked = typeof blocked !== undefined ? !blocked : true;
+        const data = {
+            ...user,
+            blocked
+        }
+        storeUserData(user.uid, data);
+        return res.send(data)
+    }
+    return res.status(400).send("No user found!")
+});
 
 router.get('/all', async (req, res) => {
     const { uid } = req.query;

@@ -17,6 +17,7 @@ import Profile from "./Components/Profile";
 
 // ADMIN COMPONENTS
 import { ManageRecipes } from "./Components/Admin/Recipes";
+import { ManageUsers } from "./Components/Admin/Users";
 
 import "./App.css";
 import { isAdmin } from "./Components/shared/utils";
@@ -28,6 +29,7 @@ const Admin = ({ match }) => {
   return (
     <>
       <Route exact path={`${match.path}/recipes`} component={ManageRecipes} />
+      <Route exact path={`${match.path}/users`} component={ManageUsers} />
     </>
   );
 };

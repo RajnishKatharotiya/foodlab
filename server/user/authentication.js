@@ -41,6 +41,9 @@ router.post("/login", (req, res) => {
       // Signed in
       const user = userCredential.user;
       const userDB = await getUserById(user.uid);
+      if(userDB.blocked){
+        res.status(400).send('User is blocked, contact admin for further assistance!')
+      }
       if (userDB) {
         return res.send(userDB || {});
       }
