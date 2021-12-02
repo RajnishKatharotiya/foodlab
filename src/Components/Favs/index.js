@@ -19,7 +19,7 @@ const Recipes = () => {
         try {
             const uid = getUserId();
             const { data: { cart, favorites } } = await axios.get(`http://localhost:8080/profile/all?uid=${uid}`);
-            setCartIds(favorites);
+            setCartIds(cart);
             if (favorites) {
                 const { data } = await axios.get(`http://localhost:8080/recipes/fetch-by-id?ids=${favorites}`);
                 setFavorites(Object.values(data));
